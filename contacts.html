@@ -1,0 +1,1023 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact Submissions</title>
+  <style>
+    :root {
+      --ink: #172A30;
+      --ink-soft: #35555D;
+      --muted: #6B7C82;
+      --line: rgba(23, 42, 48, 0.12);
+      --bg: #EEF6F4;
+      --surface: #FFFFFF;
+      --surface-soft: #F7FBFA;
+      --brand: #146C73;
+      --brand-2: #1F8A92;
+      --accent: #F2B84B;
+      --danger: #B84D34;
+      --shadow: 0 22px 70px rgba(17, 55, 63, 0.14);
+      --shadow-soft: 0 12px 34px rgba(17, 55, 63, 0.1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 12% 8%, rgba(242, 184, 75, 0.28), transparent 28%),
+        radial-gradient(circle at 86% 14%, rgba(31, 138, 146, 0.22), transparent 30%),
+        linear-gradient(145deg, #F7FBF7 0%, #EEF6F4 48%, #EAF3F0 100%);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      border-radius: 999px;
+      filter: blur(2px);
+    }
+
+    body::before {
+      width: 360px;
+      height: 360px;
+      right: -120px;
+      top: 10%;
+      background: rgba(20, 108, 115, 0.12);
+      box-shadow: -70px 260px 0 rgba(242, 184, 75, 0.12);
+    }
+
+    body::after {
+      width: 280px;
+      height: 280px;
+      left: -120px;
+      bottom: 8%;
+      background: rgba(113, 166, 122, 0.16);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 800;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      cursor: wait;
+      opacity: 0.7;
+      transform: none;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      width: min(1220px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 34px 0;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+      gap: 24px;
+      align-items: stretch;
+      margin-bottom: 24px;
+    }
+
+    .hero-main,
+    .hero-side,
+    .panel {
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 28px;
+      background: rgba(255, 255, 255, 0.82);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-main {
+      padding: clamp(28px, 5vw, 52px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      color: var(--brand);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 32px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    h1 {
+      max-width: 720px;
+      margin: 0;
+      color: var(--ink);
+      font-size: clamp(38px, 6vw, 72px);
+      line-height: 0.98;
+      letter-spacing: -0.03em;
+    }
+
+    .lead {
+      max-width: 650px;
+      margin: 20px 0 0;
+      color: var(--ink-soft);
+      font-size: 18px;
+      line-height: 1.75;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .primary-btn {
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      color: #fff;
+      box-shadow: 0 14px 26px rgba(20, 108, 115, 0.24);
+      padding: 12px 20px;
+    }
+
+    .secondary-btn {
+      background: #fff;
+      color: var(--brand);
+      border: 1px solid var(--line);
+      padding: 12px 20px;
+    }
+
+    .hero-side {
+      display: grid;
+      gap: 14px;
+      padding: 20px;
+    }
+
+    .metric {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 14px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--surface);
+      padding: 18px;
+    }
+
+    .metric-icon {
+      display: grid;
+      width: 54px;
+      height: 54px;
+      place-items: center;
+      border-radius: 18px;
+      background: rgba(20, 108, 115, 0.1);
+      color: var(--brand);
+      font-size: 24px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 26px;
+      line-height: 1;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) auto auto;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .search {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      outline: none;
+      padding: 13px 18px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .status {
+      color: var(--ink-soft);
+      font-size: 14px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .panel {
+      overflow: hidden;
+      border-color: rgba(23, 42, 48, 0.1);
+      background: rgba(255, 255, 255, 0.94);
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      border-bottom: 1px solid var(--line);
+      padding: 17px 18px;
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+    }
+
+    th {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: linear-gradient(180deg, #F8FCFB, #EFF7F5);
+      color: var(--ink-soft);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    tbody tr {
+      transition: background 0.18s ease;
+    }
+
+    tbody tr:hover {
+      background: #F9FCFC;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .name-cell {
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .email-cell a {
+      color: var(--brand);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .phone-pill {
+      display: inline-flex;
+      border-radius: 999px;
+      background: rgba(242, 184, 75, 0.18);
+      color: #8A5B00;
+      font-size: 13px;
+      font-weight: 900;
+      padding: 7px 10px;
+      white-space: nowrap;
+    }
+
+    td.message {
+      max-width: 360px;
+      color: var(--ink-soft);
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+
+    td.id {
+      max-width: 180px;
+      color: var(--muted);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      word-break: break-all;
+    }
+
+    .mobile-list {
+      display: none;
+      gap: 14px;
+      padding: 14px;
+    }
+
+    .contact-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow-soft);
+      padding: 18px;
+    }
+
+    .contact-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .contact-card h2 {
+      margin: 0;
+      color: var(--ink);
+      font-size: 20px;
+    }
+
+    .contact-card time {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .contact-card p {
+      margin: 8px 0 0;
+      color: var(--ink-soft);
+      line-height: 1.6;
+    }
+
+    .contact-card a {
+      color: var(--brand);
+      font-weight: 800;
+      text-decoration: none;
+      overflow-wrap: anywhere;
+    }
+
+    .card-meta {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .notice {
+      margin-bottom: 16px;
+      border-radius: 18px;
+      padding: 16px 18px;
+      font-weight: 800;
+    }
+
+    .empty {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--ink-soft);
+    }
+
+    .error {
+      border: 1px solid rgba(184, 77, 52, 0.26);
+      background: rgba(184, 77, 52, 0.1);
+      color: var(--danger);
+    }
+
+    .footer-actions {
+      display: flex;
+      justify-content: center;
+      padding: 18px;
+    }
+
+    #loadMore {
+      display: none;
+    }
+
+    .calm-scene {
+      position: relative;
+      min-height: 220px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.72);
+      border-radius: 26px;
+      background:
+        linear-gradient(155deg, rgba(255, 255, 255, 0.94), rgba(238, 246, 244, 0.72)),
+        radial-gradient(circle at 22% 18%, rgba(242, 184, 75, 0.24), transparent 32%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 24px 54px rgba(20, 108, 115, 0.14);
+      transform-style: preserve-3d;
+    }
+
+    .calm-scene::before {
+      content: "";
+      position: absolute;
+      width: 170px;
+      height: 170px;
+      right: 18px;
+      top: 20px;
+      border-radius: 38px;
+      background: linear-gradient(145deg, rgba(20, 108, 115, 0.13), rgba(242, 184, 75, 0.14));
+      transform: rotate(12deg);
+    }
+
+    .calm-scene::after {
+      content: "";
+      position: absolute;
+      left: 30px;
+      right: 30px;
+      bottom: 28px;
+      height: 22px;
+      border-radius: 999px;
+      background: rgba(23, 42, 48, 0.09);
+      filter: blur(8px);
+    }
+
+    .sticker-title {
+      position: absolute;
+      left: 24px;
+      top: 22px;
+      z-index: 3;
+      color: var(--ink-soft);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .plant-sticker {
+      position: absolute;
+      left: 50%;
+      bottom: 42px;
+      z-index: 2;
+      width: 130px;
+      height: 148px;
+      transform: translateX(-50%) rotateX(8deg) rotateY(-12deg);
+      transform-style: preserve-3d;
+    }
+
+    .pot {
+      position: absolute;
+      left: 34px;
+      bottom: 0;
+      width: 62px;
+      height: 54px;
+      border-radius: 14px 14px 24px 24px;
+      background: linear-gradient(145deg, #D95D39, #F2B84B);
+      box-shadow: inset -10px -12px 18px rgba(115, 54, 33, 0.16), 0 20px 30px rgba(217, 93, 57, 0.22);
+    }
+
+    .pot::before {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: -10px;
+      width: 78px;
+      height: 18px;
+      border-radius: 999px;
+      background: linear-gradient(145deg, #F6C96E, #D95D39);
+    }
+
+    .stem {
+      position: absolute;
+      left: 62px;
+      bottom: 42px;
+      width: 8px;
+      height: 82px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #71A67A, #146C73);
+      transform: rotate(-4deg);
+      transform-origin: bottom;
+    }
+
+    .leaf {
+      position: absolute;
+      width: 50px;
+      height: 28px;
+      border-radius: 999px 999px 999px 8px;
+      background: linear-gradient(145deg, #9BCB88, #146C73);
+      box-shadow: inset -8px -6px 12px rgba(0, 0, 0, 0.08), 0 12px 20px rgba(20, 108, 115, 0.16);
+      transform-origin: 8px 20px;
+    }
+
+    .leaf.one {
+      left: 14px;
+      top: 44px;
+      transform: rotate(-32deg);
+    }
+
+    .leaf.two {
+      right: 10px;
+      top: 34px;
+      transform: scaleX(-1) rotate(-28deg);
+    }
+
+    .leaf.three {
+      left: 24px;
+      top: 8px;
+      transform: rotate(-8deg);
+    }
+
+    .leaf.four {
+      right: 22px;
+      top: 78px;
+      transform: scaleX(-1) rotate(-18deg);
+    }
+
+    .tree-sticker {
+      position: absolute;
+      right: 20px;
+      bottom: 34px;
+      z-index: 2;
+      width: 70px;
+      height: 96px;
+      transform: rotateY(12deg) rotate(-3deg);
+    }
+
+    .tree-top {
+      position: absolute;
+      left: 8px;
+      top: 0;
+      width: 56px;
+      height: 56px;
+      border-radius: 50% 50% 45% 45%;
+      background: linear-gradient(145deg, #A8D88E, #2B8C72);
+      box-shadow: inset -10px -10px 16px rgba(20, 108, 115, 0.13), 0 18px 24px rgba(20, 108, 115, 0.14);
+    }
+
+    .tree-top::before,
+    .tree-top::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      background: inherit;
+    }
+
+    .tree-top::before {
+      width: 42px;
+      height: 42px;
+      left: -16px;
+      top: 16px;
+    }
+
+    .tree-top::after {
+      width: 38px;
+      height: 38px;
+      right: -14px;
+      top: 18px;
+    }
+
+    .tree-trunk {
+      position: absolute;
+      left: 31px;
+      bottom: 0;
+      width: 12px;
+      height: 44px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, #9B6A43, #6B432B);
+    }
+
+    .calm-chip {
+      position: absolute;
+      z-index: 3;
+      border: 1px solid rgba(20, 108, 115, 0.12);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.78);
+      color: var(--brand);
+      font-size: 12px;
+      font-weight: 900;
+      padding: 8px 12px;
+      box-shadow: 0 14px 24px rgba(20, 108, 115, 0.12);
+    }
+
+    .calm-chip.one {
+      left: 24px;
+      bottom: 28px;
+    }
+
+    .calm-chip.two {
+      right: 22px;
+      top: 28px;
+    }
+
+
+    @media (max-width: 900px) {
+      body {
+        background-attachment: scroll;
+      }
+
+      .page {
+        width: min(100% - 24px, 720px);
+        padding: 22px 0;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-main,
+      .hero-side,
+      .panel {
+        border-radius: 22px;
+      }
+
+      .toolbar {
+        grid-template-columns: 1fr;
+      }
+
+      .status {
+        white-space: normal;
+      }
+
+      .table-wrap {
+        display: none;
+      }
+
+      .mobile-list {
+        display: grid;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .page {
+        width: min(100% - 16px, 520px);
+      }
+
+      .hero-main {
+        padding: 24px;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
+
+      .lead {
+        font-size: 15px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .hero-actions button {
+        width: 100%;
+      }
+
+      .metric {
+        grid-template-columns: 46px 1fr;
+        padding: 14px;
+      }
+
+      .metric-icon {
+        width: 46px;
+        height: 46px;
+      }
+
+      .contact-card-head {
+        display: grid;
+      }
+
+      .contact-card time {
+        white-space: normal;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-main">
+        <span class="eyebrow">Calm admin dashboard</span>
+        <h1>Contact submissions</h1>
+        <p class="lead">
+          Review every ebook request in a peaceful, organized workspace built for
+          quick scanning and clear follow-up.
+        </p>
+        <div class="hero-actions">
+          <button id="refresh" class="primary-btn" type="button">Refresh data</button>
+          <button id="clearSearch" class="secondary-btn" type="button">Clear search</button>
+        </div>
+      </div>
+
+      <aside class="hero-side" aria-label="Submission summary">
+        <div class="calm-scene" aria-hidden="true">
+          <span class="sticker-title">Calm workspace</span>
+          <span class="calm-chip one">Clean data</span>
+          <span class="calm-chip two">Live inbox</span>
+          <div class="plant-sticker">
+            <span class="stem"></span>
+            <span class="leaf one"></span>
+            <span class="leaf two"></span>
+            <span class="leaf three"></span>
+            <span class="leaf four"></span>
+            <span class="pot"></span>
+          </div>
+          <div class="tree-sticker">
+            <span class="tree-top"></span>
+            <span class="tree-trunk"></span>
+          </div>
+        </div>
+
+        <div class="metric">
+          <div class="metric-icon">↻</div>
+          <div>
+            <strong id="loadedMetric">0</strong>
+            <span>loaded records</span>
+          </div>
+        </div>
+        <div class="metric">
+          <div class="metric-icon">✉</div>
+          <div>
+            <strong id="visibleMetric">0</strong>
+            <span>visible after search</span>
+          </div>
+        </div>
+        <div class="metric">
+          <div class="metric-icon">＋</div>
+          <div>
+            <strong id="moreMetric">No</strong>
+            <span>more pages available</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="toolbar" aria-label="Contact tools">
+      <input
+        id="search"
+        class="search"
+        type="search"
+        placeholder="Search by name, email, phone, message, or id"
+        autocomplete="off"
+      >
+      <span id="count" class="status">Loaded: 0</span>
+      <button id="loadMore" class="secondary-btn" type="button">Load more</button>
+    </section>
+
+    <div id="notice"></div>
+
+    <section class="panel">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Message</th>
+              <th>ID</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+
+      <div id="cards" class="mobile-list"></div>
+
+      <div class="footer-actions">
+        <button id="loadMoreBottom" class="primary-btn" type="button" style="display:none;">Load more</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const API = "https://delgiwtcjl.execute-api.us-east-1.amazonaws.com/dev/epicreads_resource";
+
+    let lastKey = null;
+    let total = 0;
+    let loading = false;
+    let allItems = [];
+
+    const rows = document.getElementById("rows");
+    const cards = document.getElementById("cards");
+    const count = document.getElementById("count");
+    const notice = document.getElementById("notice");
+    const loadMore = document.getElementById("loadMore");
+    const loadMoreBottom = document.getElementById("loadMoreBottom");
+    const refresh = document.getElementById("refresh");
+    const search = document.getElementById("search");
+    const clearSearch = document.getElementById("clearSearch");
+    const loadedMetric = document.getElementById("loadedMetric");
+    const visibleMetric = document.getElementById("visibleMetric");
+    const moreMetric = document.getElementById("moreMetric");
+
+    function text(value) {
+      return value == null ? "" : String(value);
+    }
+
+    function formatTime(value) {
+      if (!value) return "";
+      const date = new Date(value);
+      return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
+    }
+
+    function itemMatches(item, query) {
+      if (!query) return true;
+      const haystack = [
+        item.createdAt,
+        item.name,
+        item.email,
+        item.phone,
+        item.message,
+        item.id,
+      ].map(text).join(" ").toLowerCase();
+      return haystack.includes(query.toLowerCase());
+    }
+
+    function filteredItems() {
+      return allItems.filter((item) => itemMatches(item, search.value.trim()));
+    }
+
+    function setLoading(value) {
+      loading = value;
+      loadMore.disabled = value;
+      loadMoreBottom.disabled = value;
+      refresh.disabled = value;
+      count.textContent = value ? `Loaded: ${total} - Loading...` : `Loaded: ${total}`;
+    }
+
+    function updateMetrics(visibleCount) {
+      loadedMetric.textContent = String(total);
+      visibleMetric.textContent = String(visibleCount);
+      moreMetric.textContent = lastKey ? "Yes" : "No";
+      count.textContent = `Loaded: ${total} | Showing: ${visibleCount}`;
+    }
+
+    function clearRendered() {
+      rows.textContent = "";
+      cards.textContent = "";
+    }
+
+    function addTableRow(item) {
+      const tr = document.createElement("tr");
+
+      const cells = [
+        { value: formatTime(item.createdAt) },
+        { value: text(item.name), className: "name-cell" },
+        { value: text(item.email), className: "email-cell", email: true },
+        { value: text(item.phone), phone: true },
+        { value: text(item.message), className: "message" },
+        { value: text(item.id), className: "id" },
+      ];
+
+      cells.forEach((cell) => {
+        const td = document.createElement("td");
+        if (cell.className) td.className = cell.className;
+
+        if (cell.email && cell.value) {
+          const a = document.createElement("a");
+          a.href = `mailto:${cell.value}`;
+          a.textContent = cell.value;
+          td.appendChild(a);
+        } else if (cell.phone && cell.value) {
+          const span = document.createElement("span");
+          span.className = "phone-pill";
+          span.textContent = cell.value;
+          td.appendChild(span);
+        } else {
+          td.textContent = cell.value;
+        }
+
+        tr.appendChild(td);
+      });
+
+      rows.appendChild(tr);
+    }
+
+    function addMobileCard(item) {
+      const article = document.createElement("article");
+      article.className = "contact-card";
+
+      const head = document.createElement("div");
+      head.className = "contact-card-head";
+
+      const title = document.createElement("h2");
+      title.textContent = text(item.name) || "Unnamed contact";
+
+      const time = document.createElement("time");
+      time.textContent = formatTime(item.createdAt);
+
+      head.append(title, time);
+
+      const email = document.createElement("a");
+      email.href = `mailto:${text(item.email)}`;
+      email.textContent = text(item.email);
+
+      const message = document.createElement("p");
+      message.textContent = text(item.message) || "No message provided.";
+
+      const meta = document.createElement("div");
+      meta.className = "card-meta";
+      meta.append(
+        `Phone: ${text(item.phone) || "Not provided"}`,
+        `ID: ${text(item.id)}`
+      );
+
+      article.append(head, email, message, meta);
+      cards.appendChild(article);
+    }
+
+    function render() {
+      const items = filteredItems();
+      clearRendered();
+      notice.textContent = "";
+      notice.className = "";
+
+      items.forEach((item) => {
+        addTableRow(item);
+        addMobileCard(item);
+      });
+
+      updateMetrics(items.length);
+      loadMore.style.display = lastKey ? "inline-block" : "none";
+      loadMoreBottom.style.display = lastKey ? "inline-block" : "none";
+
+      if (total === 0) {
+        notice.className = "notice empty";
+        notice.textContent = "No contact messages found yet.";
+      } else if (items.length === 0) {
+        notice.className = "notice empty";
+        notice.textContent = "No matching contacts found for this search.";
+      }
+    }
+
+    async function fetchPage(reset = false) {
+      if (loading) return;
+
+      if (reset) {
+        allItems = [];
+        lastKey = null;
+        total = 0;
+        search.value = "";
+        clearRendered();
+        notice.textContent = "";
+        notice.className = "";
+      }
+
+      setLoading(true);
+
+      try {
+        const url = new URL(API);
+        url.searchParams.set("limit", "25");
+        if (lastKey) url.searchParams.set("lastKey", lastKey);
+
+        const res = await fetch(url, { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        let data = await res.json();
+
+        if (typeof data.body === "string") {
+          data = JSON.parse(data.body);
+        }
+
+        const items = Array.isArray(data.items) ? data.items : [];
+
+        allItems = [...allItems, ...items];
+        total = allItems.length;
+        lastKey = data.lastKey || null;
+        render();
+      } catch (err) {
+        console.error(err);
+        notice.className = "notice error";
+        notice.textContent = "Could not load contact messages. Check the GET API, CORS, and Lambda permissions.";
+      } finally {
+        setLoading(false);
+        render();
+      }
+    }
+
+    loadMore.addEventListener("click", () => fetchPage(false));
+    loadMoreBottom.addEventListener("click", () => fetchPage(false));
+    refresh.addEventListener("click", () => fetchPage(true));
+    search.addEventListener("input", render);
+    clearSearch.addEventListener("click", () => {
+      search.value = "";
+      render();
+      search.focus();
+    });
+
+    fetchPage(true);
+  </script>
+</body>
+</html>
